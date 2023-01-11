@@ -1,11 +1,12 @@
 const express = require("express");
 require("dotenv").config();
 const app = express();
-const server = require("http").createServer(app);
+const server = require("https").createServer(app);
+console.log(server);
 const cors = require("cors");
 const io = require("socket.io")(server, {
   cors: {
-    origin: "https://mern-chat-app-kwtb.onrender.com/",
+    origin: "https://mern-chat-app-kwtb.onrender.com",
     methods: ["GET", "POST"],
   },
 });
@@ -24,7 +25,12 @@ mongoose.connect(process.env.DB_URI, {
 const db = mongoose.connection;
 db.once("open", () => console.log("Connected to DB!"));
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://mern-chat-app-kwtb.onrender.com",
+    optionsSuccessStatus: 200,
+  })
+);
 app.use(express.json());
 
 app.post("/sendmail", (req, res) => {
