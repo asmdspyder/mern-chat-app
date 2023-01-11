@@ -2,11 +2,16 @@ const express = require("express");
 require("dotenv").config();
 const app = express();
 const server = require("http").createServer(app);
-const io = require("socket.io")(server);
+const cors = require("cors");
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "https://mern-chat-app-kwtb.onrender.com/",
+    methods: ["GET", "POST"],
+  },
+});
 const port = process.env.PORT || 5000;
 const mongoose = require("mongoose");
 const nodemailer = require("nodemailer");
-const cors = require("cors");
 
 const usersRouter = require("./routes/users");
 const path = require("path");
